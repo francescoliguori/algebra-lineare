@@ -1,0 +1,37 @@
+name: Errore in un esercizio
+description: Un errore nel testo o nella soluzione, oppure la correzione automatica che rifiuta una risposta giusta.
+title: "[Errore] "
+labels: ["errore"]
+body:
+  - type: markdown
+    attributes:
+      value: "Grazie della segnalazione! Le segnalazioni sono pubbliche: non scrivere dati personali."
+  - type: input
+    id: esercizio
+    attributes:
+      label: Esercizio
+      description: Si compila da solo se arrivi dal link in fondo all'esercizio.
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Che tipo di problema è?
+      options:
+        - Errore nel testo
+        - Errore nella soluzione
+        - La correzione rifiuta una risposta giusta (o ne accetta una sbagliata)
+        - La pagina non funziona come dovrebbe
+        - Altro
+    validations:
+      required: true
+  - type: textarea
+    id: descrizione
+    attributes:
+      label: Cosa non va
+      description: Descrivi il problema. Se riguarda la correzione automatica, scrivi la risposta che hai inserito.
+    validations:
+      required: true
+  - type: input
+    id: dispositivo
+    attributes:
+      label: Dispositivo e browser (facoltativo)
+      placeholder: es. Android, Chrome
