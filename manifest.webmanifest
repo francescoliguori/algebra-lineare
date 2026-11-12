@@ -3,6 +3,7 @@
   "short_name": "Algebra",
   "description": "Esercizi interattivi di algebra lineare e matematica discreta, con correzione automatica e simulazione d'esame.",
   "lang": "it",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
