@@ -1973,8 +1973,38 @@ if (window.katex) window.katexPronto();
   }
 })();
 
+// ---------------------------------------------------------------------- aggiornamenti
+// Un'app installata resta aperta in background anche per giorni: si cerca una versione nuova all'avvio e ogni volta
+// che la pagina torna in primo piano. Quando il nuovo service worker prende il controllo la pagina si ricarica da
+// sola; durante una simulazione d'esame non consegnata compare invece un avviso con il pulsante «Aggiorna».
 if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !window.SENZA_SW) {
-  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+  const avevaVersione = !!navigator.serviceWorker.controller;   // false alla prima visita: niente da ricaricare
+  let ultimoControllo = 0, giaAvvisato = false;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(reg => {
+      ultimoControllo = Date.now();
+      const controlla = () => {
+        if (Date.now() - ultimoControllo < 60000) return;
+        ultimoControllo = Date.now();
+        reg.update().catch(() => {});
+      };
+      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") controlla(); });
+      window.addEventListener("online", controlla);
+    }).catch(() => {});
+  });
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!avevaVersione || giaAvvisato) return;
+    giaAvvisato = true;
+    if (!(esame && !esame.consegnato)) { location.reload(); return; }
+    const box = el("div", { class: "installa", role: "status" },
+      document.querySelector(".marchio .logo").cloneNode(true),
+      el("div", {}, el("strong", {}, "Nuova versione disponibile"),
+        el("p", {}, "Si aggiorna alla prossima apertura, oppure subito: la simulazione in corso andrebbe persa.")),
+      el("div", { class: "azioni" },
+        el("button", { class: "btn sec", type: "button", onclick: () => box.remove() }, "Dopo"),
+        el("button", { class: "btn", type: "button", onclick: () => location.reload() }, "Aggiorna")));
+    document.body.append(box);
+  });
 }
 </script>
 </body>
