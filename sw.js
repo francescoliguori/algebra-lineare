@@ -1,5 +1,5 @@
 // Service worker generato da genera_web.py: non modificare a mano.
-const VERSIONE = "f58e981b351b";
+const VERSIONE = "05e8525475ce";
 const CACHE = "algebra-" + VERSIONE, CACHE_KATEX = "katex-0.16.11";
 const BASE = ["./", "./index.html", "./manifest.webmanifest", "./font/plus-jakarta-sans-latin.woff2", "./icone/icona-192.png", "./icone/icona-512.png"].concat(["./teoria/introduzione-f0930c6258.json", "./teoria/insiemi-c193de3b84.json", "./teoria/sistemi-c0b0ec938f.json", "./teoria/spazi-f445c7458f.json", "./teoria/matrici-e71eee80aa.json", "./teoria/applicazioni-0b82fae73b.json", "./teoria/determinanti-84557dc29c.json", "./teoria/autovalori-1d9d8881b1.json"]);
 self.addEventListener("install", e => {

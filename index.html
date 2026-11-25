@@ -1377,7 +1377,10 @@ function disegnaPiede() {
     CONFIG.autore ? el("div", { class: "firma" }, el("span", {}, "A cura di ", el("strong", {}, CONFIG.autore)),
       ...(CONFIG.ente || []).map(r => el("span", { class: "ente" }, r)),
       el("span", { class: "ente licenza" }, "Testi ed esercizi con licenza ",
-        el("a", { href: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it", target: "_blank", rel: "noopener license" }, "CC BY-NC-SA 4.0"))) : el("span"),
+        el("a", { href: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it", target: "_blank", rel: "noopener license" }, "CC BY-NC-SA 4.0")),
+      // pagina statica con i capitoli e i PDF (serve anche ai motori di ricerca)
+      window.SENZA_SW ? (SITO ? el("span", { class: "ente licenza" }, el("a", { href: SITO + "dispense.html", target: "_blank", rel: "noopener" }, "Le dispense in PDF")) : null)
+        : el("span", { class: "ente licenza" }, el("a", { href: "dispense.html" }, "Le dispense in PDF"))) : el("span"),
     CONFIG.repo ? linkSegnala(null, "Hai trovato un errore? Segnalalo") : null));
 }
 
